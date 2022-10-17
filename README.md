@@ -7,4 +7,4 @@ Dash app [app.py](/app.py) allows to choose the ticker and displays current pric
 
 Credentials for authentication are stored in [users.json](/ins/users.json)
 
-For an example, app is running at [http://localhost:66/](localhost:66) here.
+For an example, app is running at [http://localhost:66/](http://localhost:66/) here.
