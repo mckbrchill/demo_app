@@ -138,8 +138,6 @@ app.layout = html.Div(
             ]
         ),
         html.Br(),
-        # html.Br(),
-        # html.Br(),
         html.Div(
             [
                 dbc.Row(
@@ -202,9 +200,7 @@ app.layout = html.Div(
 )
 
 
-# Callback main graph
-
-
+# Callback main graph on 1 sec interval or "Plot" button
 @app.callback(
     # output
     [Output("graph", "figure"), Output("live price", "figure")],
@@ -220,19 +216,11 @@ def graph_genrator(n_clicks, n_int, ticker, chart_name):
     global dfs
 
     if not RUN_FLAG:
-        print('Preventing UPDATE')
         raise PreventUpdate
 
     RUN_FLAG = False
 
-    start_time = time.time()
-
-    # if n_clicks >= 1:  # Checking for user to click submit button
-
     # loading data
-    start_date = datetime.now().date() - timedelta(days=5 * 365)
-    end_data = datetime.now().date()
-
     dfs = pg.load_data()
     df = dfs[ticker]
 
@@ -375,7 +363,7 @@ def graph_genrator(n_clicks, n_int, ticker, chart_name):
             ),
         )
 
-    # simple oving average
+    # simple moving average
     if chart_name == "SMA":
         close_ma_10 = df.close.rolling(10).mean()
         close_ma_15 = df.close.rolling(15).mean()
@@ -640,10 +628,6 @@ def graph_genrator(n_clicks, n_int, ticker, chart_name):
             ),
         )
 
-    # end_data = datetime.now().date()
-    # start_date = datetime.now().date() - timedelta(days=30)
-
-    # dfs = pg.load_data()
     res_df = dfs[ticker]
 
     if len(res_df) >= 2:
@@ -674,7 +658,6 @@ def graph_genrator(n_clicks, n_int, ticker, chart_name):
     )
 
     RUN_FLAG = True
-    print("--- %s seconds ---" % (time.time() - start_time))
     return fig, live_price
 
 
@@ -687,4 +670,3 @@ if __name__ == "__main__":
     t2.start()
     t1.join()
     t2.join()
-    # app.run_server(debug=False, use_reloader=False, port=66, host='localhost')
